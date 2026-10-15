@@ -4,6 +4,9 @@ import java.util.Date;
 
 import org.sid.bank_service.enums.AccountType;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -26,11 +29,22 @@ public class BankAccount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private double solde;
     private Date dateCreation;
     private String currency;
+
+    @JsonAlias("solde")
     private double balance;
 
     @Enumerated(EnumType.STRING)
     private AccountType type;
+
+    @JsonIgnore
+    public double getSolde() {
+        return balance;
+    }
+
+    @JsonIgnore
+    public void setSolde(double solde) {
+        this.balance = solde;
+    }
 }
